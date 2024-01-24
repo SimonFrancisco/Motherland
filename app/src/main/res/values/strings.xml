@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">RegisterLand</string>
+    <string name="app_name">Motherland</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name">NAME</string>
     <string name="surname">SURNAME</string>

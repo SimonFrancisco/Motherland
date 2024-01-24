@@ -1,9 +1,11 @@
 package com.example.registerland.fragments
 
 import android.annotation.SuppressLint
+import android.app.DatePickerDialog
 import android.content.pm.ActivityInfo
 import android.content.res.ColorStateList
 import android.graphics.Color
+import android.icu.util.Calendar
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +15,12 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.registerland.R
 import com.example.registerland.databinding.FragmentRegisterBinding
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 class Register : Fragment(), View.OnClickListener, View.OnFocusChangeListener {
     private lateinit var registerBinding: FragmentRegisterBinding
-    //private lateinit var viewModel: WelcomeViewModel
 
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreateView(
@@ -33,6 +36,9 @@ class Register : Fragment(), View.OnClickListener, View.OnFocusChangeListener {
         registerBinding.passwordEt.onFocusChangeListener = this
         registerBinding.cPasswordEt.onFocusChangeListener = this
         registerBinding.registerBtn.setOnClickListener(this)
+        registerBinding.birthDayTil.setOnClickListener(this)
+        registerBinding.birthDayEt.setOnClickListener(this)
+
         return registerBinding.root
     }
 
@@ -135,6 +141,12 @@ class Register : Fragment(), View.OnClickListener, View.OnFocusChangeListener {
         if (view?.id == R.id.registerBtn) {
             onSubmit()
         }
+        if (view?.id == R.id.birth_dayTil) {
+            datePicker()
+        }
+        if (view?.id == R.id.birth_dayEt) {
+            datePicker()
+        }
     }
 
     override fun onFocusChange(view: View?, hasFocus: Boolean) {
@@ -145,7 +157,6 @@ class Register : Fragment(), View.OnClickListener, View.OnFocusChangeListener {
                         if (registerBinding.nameTil.isErrorEnabled) {
                             registerBinding.nameTil.isErrorEnabled = false
                         }
-
                     } else {
                         validateName()
                     }
@@ -167,8 +178,8 @@ class Register : Fragment(), View.OnClickListener, View.OnFocusChangeListener {
                     if (hasFocus) {
                         if (registerBinding.birthDayTil.isErrorEnabled) {
                             registerBinding.birthDayTil.isErrorEnabled = false
+                            datePicker()
                         }
-
                     } else {
                         validateBirthDay()
                     }
@@ -237,6 +248,26 @@ class Register : Fragment(), View.OnClickListener, View.OnFocusChangeListener {
         if (!validateConfirmPassword()) isValid = false
         if (isValid && !validatePasswordAndConfirmPassword()) isValid = false
         return isValid
+    }
+
+    private fun datePicker() {
+        val calendarBox = Calendar.getInstance()
+        val dateBox = DatePickerDialog.OnDateSetListener { datePicker, year, month, day ->
+            calendarBox.set(Calendar.YEAR, year)
+            calendarBox.set(Calendar.MONTH, month)
+            calendarBox.set(Calendar.DAY_OF_MONTH, day)
+            updateText(calendarBox)
+        }
+        DatePickerDialog(
+            requireActivity(), dateBox, calendarBox.get(Calendar.YEAR),
+            calendarBox.get(Calendar.MONTH), calendarBox.get(Calendar.DAY_OF_MONTH)
+        ).show()
+    }
+
+    private fun updateText(calendar: Calendar) {
+        val dateFormat = "dd-MM-yyyy"
+        val simple = SimpleDateFormat(dateFormat, Locale.UK)
+        registerBinding.birthDayEt.setText(simple.format(calendar.time))
     }
 
 }
