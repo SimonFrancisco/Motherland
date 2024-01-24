@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">RegisterLand</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="name">NAME</string>
+    <string name="surname">SURNAME</string>
+    <string name="birth_day">DATE OF BIRTH</string>
+    <string name="password">PASSWORD</string>
+    <string name="confirm_password">CONFIRM PASSWORD</string>
+    <string name="register_text">REGISTER</string>
+    <string name="welcome_text">Welcome</string>
+    <string name="welcome_text_modal">Welcome</string>
+</resources>
